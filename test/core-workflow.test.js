@@ -470,8 +470,50 @@ async function runCoreWorkflowTests() {
   assert.ok(diskData.timelineEvents.length > 0, 'Timeline events must be persisted on disk');
   console.log('✅ Disk storage verification passed. All data survives server restarts.\n');
 
+  // ---------------------------------------------------------------------------
+  // STEP 14: RECORD DELETION & STRICT AUTHORIZATION
+  // ---------------------------------------------------------------------------
+  console.log('--- Step 14: Record Deletion & Authorization Verification ---');
+
+  // 14A. Document Deletion by Owner (User A)
+  const targetPattaReq = requirements.find(r => r.idKey === 'PATTA_CHITTA_TSLR');
+  const deleteDocRes = await request(`/api/v1/permits/${createdPermit.id}/requirements/${targetPattaReq.id}/documents`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${tokenUserA}` }
+  });
+  assert.strictEqual(deleteDocRes.status, 200, `Failed to delete document: ${JSON.stringify(deleteDocRes.data)}`);
+  assert.strictEqual(deleteDocRes.data.success, true);
+  assert.strictEqual(deleteDocRes.data.requirement.status, 'PENDING');
+  assert.strictEqual(deleteDocRes.data.requirement.verificationStatus, 'Missing');
+  console.log(`✅ Document deleted successfully. Requirement reset to: [${deleteDocRes.data.requirement.verificationBadge}]`);
+  console.log(`   Updated Readiness Score: ${deleteDocRes.data.audit.readinessScore}%`);
+
+  // 14B. Unauthorized Project Deletion Attempt (User B tries to delete User A's project)
+  const forbidDeleteRes = await request(`/api/v1/projects/${createdProject.id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${tokenUserB}` }
+  });
+  assert.strictEqual(forbidDeleteRes.status, 403, 'Unauthorized user deletion must be blocked with 403 Forbidden');
+  console.log(`✅ Unauthorized project deletion blocked: HTTP ${forbidDeleteRes.status}`);
+
+  // 14C. Authorized Project Deletion (User A deletes their project)
+  const deleteProjRes = await request(`/api/v1/projects/${createdProject.id}`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${tokenUserA}` }
+  });
+  assert.strictEqual(deleteProjRes.status, 200, `Failed to delete project: ${JSON.stringify(deleteProjRes.data)}`);
+  assert.strictEqual(deleteProjRes.data.success, true);
+  console.log(`✅ Project deleted by owner: ${deleteProjRes.data.message}`);
+
+  // 14D. Verify cascading cleanup
+  const getDeletedRes = await request(`/api/v1/projects/${createdProject.id}`, {
+    headers: { Authorization: `Bearer ${tokenUserA}` }
+  });
+  assert.strictEqual(getDeletedRes.status, 404, 'Deleted project must return 404');
+  console.log('✅ Cascade deletion verified: Project and submittals no longer exist.\n');
+
   console.log('================================================================');
-  console.log('🎉 ALL 13 CORE WORKFLOW INTEGRATION TESTS PASSED 100%!');
+  console.log('🎉 ALL 14 CORE WORKFLOW INTEGRATION TESTS PASSED 100%!');
   console.log('================================================================');
 }
 

@@ -215,6 +215,18 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, project);
     }
 
+    // DELETE PROJECT (With 403 Forbidden Authorization Guard & Cascade Cleanup)
+    if (pathname.match(/^\/api\/v1\/projects\/([^\/]+)$/) && method === 'DELETE') {
+      const id = pathname.split('/')[4];
+      const project = db.projects.find(p => p.id === id);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to delete this project.' });
+      }
+      const success = storageService.deleteProject(id);
+      return sendJSON(res, 200, { success, message: 'Project and all associated submittals deleted successfully.' });
+    }
+
     // CREATE PROJECT WITH VALIDATION & USER OWNERSHIP
     if (pathname === '/api/v1/projects' && method === 'POST') {
       const rawBody = await parseJSONBody(req);
@@ -484,6 +496,55 @@ const server = http.createServer(async (req, res) => {
         document: newDoc,
         requirement: reqItem,
         verification,
+        audit
+      });
+    }
+
+    // DELETE DOCUMENT (With 403 Forbidden Authorization Guard & Pre-Submission Audit Recalculation)
+    if (pathname.match(/^\/api\/v1\/permits\/([^\/]+)\/requirements\/([^\/]+)\/documents(?:\/([^\/]+))?$/) && method === 'DELETE') {
+      const parts = pathname.split('/');
+      const permitId = parts[4];
+      const reqId = parts[6];
+      const docId = parts[8] || null;
+
+      const permit = db.permits.find(p => p.id === permitId);
+      if (!permit) return sendJSON(res, 404, { error: 'Permit not found' });
+
+      const project = db.projects.find(pr => pr.id === permit.projectId);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to delete documents for this project.' });
+      }
+
+      const reqItem = db.requirements.find(r => r.id === reqId);
+      if (!reqItem) return sendJSON(res, 404, { error: 'Requirement item not found' });
+
+      const delResult = storageService.deleteDocument(reqId, docId);
+      if (!delResult) {
+        return sendJSON(res, 404, { error: 'Document not found' });
+      }
+
+      storageService.addTimelineEvent({
+        id: `aud-tn-${Date.now()}`,
+        permitId,
+        changedById: user.id,
+        action: 'DOCUMENT_DELETED',
+        fromStatus: null,
+        toStatus: permit.status,
+        details: `Deleted document from requirement "${reqItem.name}". State reset to [${reqItem.verificationBadge}].`,
+        createdAt: new Date().toISOString()
+      });
+
+      // Recalculate Pre-Submission Audit
+      const reqs = db.requirements.filter(r => r.permitId === permit.id);
+      const docs = db.documents.filter(d => reqs.some(r => r.id === d.requirementId));
+      const audit = runPreSubmissionAudit(permit, project, reqs, docs);
+
+      return sendJSON(res, 200, {
+        success: true,
+        message: 'Document deleted successfully.',
+        requirement: reqItem,
         audit
       });
     }
@@ -1279,11 +1340,16 @@ function renderTamilNaduSPA() {
                       \`).join('')}
                     </td>
                     <td class="py-4 px-5 text-right">
-                      \${proj.permits.length > 0 ? \`
-                        <button onclick="openPermit('\${proj.permits[0].id}')" class="px-3.5 py-1.5 bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 rounded-lg text-xs font-semibold border border-slate-200 transition">
-                          Open Audit &rarr;
+                      <div class="flex items-center justify-end space-x-2">
+                        \${proj.permits.length > 0 ? \`
+                          <button onclick="openPermit('\${proj.permits[0].id}')" class="px-3 py-1.5 bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 rounded-lg text-xs font-semibold border border-slate-200 transition">
+                            Open Audit &rarr;
+                          </button>
+                        \` : ''}
+                        <button onclick="handleDeleteProject('\${proj.id}', event)" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 hover:text-rose-700 rounded-lg text-xs font-semibold border border-rose-200 transition" title="Delete Project">
+                          <i class="fa-solid fa-trash-can"></i>
                         </button>
-                      \` : ''}
+                      </div>
                     </td>
                   </tr>
                 \`).join('')}
@@ -1333,6 +1399,9 @@ function renderTamilNaduSPA() {
                 <i class="fa-solid fa-box-archive mr-1.5"></i> Generate Submittal Package
               </button>
             \`}
+            <button onclick="handleDeleteProject('\${p.projectId || p.project?.id}', event)" class="px-3.5 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl text-xs font-semibold shadow transition flex items-center" title="Delete this project and all submittals">
+              <i class="fa-solid fa-trash-can mr-1.5"></i> Delete Project
+            </button>
           </div>
         </div>
 
@@ -1599,6 +1668,9 @@ function renderTamilNaduSPA() {
                             <i class="fa-solid fa-arrow-up-from-bracket mr-1 text-slate-400"></i> Upload v\${req.currentDocument.version + 1}
                             <input type="file" class="hidden" onchange="handleFileUpload('\${p.id}', '\${req.id}', this.files[0])">
                           </label>
+                          <button onclick="handleDeleteDocument('\${p.id}', '\${req.id}', '\${req.currentDocument.id}')" class="px-2.5 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg text-xs font-semibold border border-rose-200 transition flex items-center" title="Delete uploaded document">
+                            <i class="fa-solid fa-trash-can mr-1 text-rose-500"></i> Delete Doc
+                          </button>
                         </div>
                       </div>
                     \` : \`
@@ -2046,6 +2118,48 @@ function renderTamilNaduSPA() {
 
       await openPermit(permitId);
       await loadMetrics();
+    }
+
+    async function handleDeleteProject(projectId, event) {
+      if (event) event.stopPropagation();
+      if (!projectId) return;
+      if (!confirm('Are you sure you want to delete this project and all associated submittals, checklists, and filings? This action cannot be undone.')) {
+        return;
+      }
+      try {
+        const res = await fetch(\`/api/v1/projects/\${projectId}\`, { method: 'DELETE' });
+        const data = await res.json();
+        if (!res.ok) {
+          return alert(data.error || 'Failed to delete project');
+        }
+        alert(data.message || 'Project deleted successfully.');
+        if (state.activeView === 'permitDetail') {
+          showDashboard();
+        }
+        await loadMetrics();
+        await loadProjects();
+        renderApp();
+      } catch (err) {
+        alert('Error deleting project: ' + err.message);
+      }
+    }
+
+    async function handleDeleteDocument(permitId, reqId, docId) {
+      if (!confirm('Are you sure you want to delete this uploaded document? The requirement status will be reset to missing.')) {
+        return;
+      }
+      try {
+        const url = \`/api/v1/permits/\${permitId}/requirements/\${reqId}/documents\` + (docId ? \`/\${docId}\` : '');
+        const res = await fetch(url, { method: 'DELETE' });
+        const data = await res.json();
+        if (!res.ok) {
+          return alert(data.error || 'Failed to delete document');
+        }
+        await openPermit(permitId);
+        await loadMetrics();
+      } catch (err) {
+        alert('Error deleting document: ' + err.message);
+      }
     }
 
     init();

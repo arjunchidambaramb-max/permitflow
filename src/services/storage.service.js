@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Real Persistence & Firestore-Modeled Storage Service
  * Persists projects, permits, requirements, documents, validation results,
  * professional reviews, applications, issues, and timeline events.
@@ -222,6 +222,35 @@ class StorageService {
     return project;
   }
 
+  deleteProject(projectId) {
+    const projIdx = this.data.projects.findIndex(p => p.id === projectId);
+    if (projIdx === -1) return false;
+
+    // Find all permit IDs for this project
+    const permitIds = this.data.permits.filter(p => p.projectId === projectId).map(p => p.id);
+    const reqIds = this.data.requirements.filter(r => permitIds.includes(r.permitId)).map(r => r.id);
+
+    // Remove project
+    this.data.projects.splice(projIdx, 1);
+    // Remove permits
+    this.data.permits = this.data.permits.filter(p => p.projectId !== projectId);
+    // Remove requirements
+    this.data.requirements = this.data.requirements.filter(r => !permitIds.includes(r.permitId));
+    // Remove documents
+    this.data.documents = this.data.documents.filter(d => !reqIds.includes(d.requirementId));
+    // Remove reviews, validation results, applications, timeline events
+    this.data.professionalReviews = this.data.professionalReviews.filter(r => !permitIds.includes(r.permitId));
+    this.data.validationResults = this.data.validationResults.filter(v => !permitIds.includes(v.permitId));
+    this.data.applications = this.data.applications.filter(a => !permitIds.includes(a.permitId));
+    this.data.timelineEvents = this.data.timelineEvents.filter(t => !permitIds.includes(t.permitId));
+    if (this.data.auditLogs) {
+      this.data.auditLogs = this.data.auditLogs.filter(t => !permitIds.includes(t.permitId));
+    }
+
+    this.save();
+    return true;
+  }
+
   // Permits
   getPermits(projectId) {
     if (!projectId) return this.data.permits;
@@ -275,6 +304,45 @@ class StorageService {
     }
     this.save();
     return doc;
+  }
+
+  deleteDocument(requirementId, documentId) {
+    const docIdx = this.data.documents.findIndex(d => 
+      (documentId && d.id === documentId) || 
+      (!documentId && d.requirementId === requirementId && d.isCurrent)
+    );
+    if (docIdx === -1) return null;
+
+    const removed = this.data.documents.splice(docIdx, 1)[0];
+    
+    // Check if there is an older version to set as current
+    const remainingDocs = this.data.documents.filter(d => d.requirementId === requirementId);
+    if (remainingDocs.length > 0) {
+      remainingDocs.sort((a, b) => b.version - a.version);
+      remainingDocs[0].isCurrent = true;
+    }
+
+    // Reset requirement state if no remaining current document
+    const reqItem = this.data.requirements.find(r => r.id === requirementId);
+    if (reqItem) {
+      if (remainingDocs.length > 0) {
+        const topDoc = remainingDocs[0];
+        reqItem.verificationStatus = topDoc.verification?.aiStatus || 'Appears Valid';
+        reqItem.verificationBadge = topDoc.verification?.badge || '✅ Appears Valid';
+        reqItem.verificationReason = topDoc.verification?.reason || 'Verified previous document version.';
+        reqItem.extractedDetails = topDoc.verification?.extractedDetails || {};
+        reqItem.status = 'UPLOADED';
+      } else {
+        reqItem.status = 'PENDING';
+        reqItem.verificationStatus = 'Missing';
+        reqItem.verificationBadge = '❌ Missing';
+        reqItem.verificationReason = `Document removed. Required document not uploaded. Mandatory under ${reqItem.regulatoryCitation || 'TNCDBR-2019'}.`;
+        reqItem.extractedDetails = {};
+      }
+    }
+
+    this.save();
+    return { removed, requirement: reqItem };
   }
 
   // Validation Results

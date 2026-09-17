@@ -144,6 +144,24 @@
       "role": "PROJECT_MANAGER",
       "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
       "createdAt": "2026-09-17T16:14:51.783Z"
+    },
+    {
+      "id": "usr-1789663531474",
+      "email": "pm.arjun.1789663531314@tn-builders.com",
+      "firstName": "Arjun",
+      "lastName": "Chidambaram",
+      "role": "PROJECT_MANAGER",
+      "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
+      "createdAt": "2026-09-17T16:45:31.477Z"
+    },
+    {
+      "id": "usr-1789663531507",
+      "email": "unauthorized.1789663531504@external.com",
+      "firstName": "Unauthorized",
+      "lastName": "Contractor",
+      "role": "PROJECT_MANAGER",
+      "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
+      "createdAt": "2026-09-17T16:45:31.507Z"
     }
   ],
   "currentUser": {
@@ -154,6 +172,35 @@
     "role": "PROJECT_MANAGER"
   },
   "projects": [
+    {
+      "id": "proj-tn-1789662315291",
+      "name": "green heaven 2bhk",
+      "description": "",
+      "address": "12, lake view road",
+      "country": "India",
+      "state": "Tamil Nadu",
+      "district": "Coimbatore",
+      "city": "Coimbatore",
+      "taluk": "Coimbatore north",
+      "zipCode": "600001",
+      "parcelNumber": "S.No 142/2B",
+      "ownerName": "arunkumar",
+      "ownerContact": "senthil.pm@lnt-constructions.com",
+      "plotArea": 2500,
+      "builtUpArea": 4800,
+      "height": 17.9,
+      "roadWidth": 18,
+      "nearWaterBody": true,
+      "nearAirport": true,
+      "abuttingHighway": false,
+      "budget": 10000000,
+      "estimatedStartDate": "2026-09-17",
+      "estimatedEndDate": "2028-12-31",
+      "managerId": "usr-1",
+      "authority": "DTCP",
+      "governingCode": "TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971",
+      "createdAt": "2026-09-17T16:25:15.292Z"
+    },
     {
       "id": "proj-tn-1789661691806",
       "name": "Peelamedu Tech Square - Phase 1",
@@ -517,7 +564,48 @@
       "professionalReview": null,
       "submissionPackage": null,
       "governmentTracking": null,
-      "createdAt": "2026-08-15T09:00:00.000Z"
+      "createdAt": "2026-08-15T09:00:00.000Z",
+      "audit": {
+        "permitId": "pmt-tn-101",
+        "projectId": "proj-tn-01",
+        "readinessScore": 9,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+            "detail": "Under TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-8"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Directorate of Fire and Rescue Services (DFRS) Preliminary NOC",
+            "detail": "Under TNCDBR-2019 Rule 42 & Tamil Nadu Fire Service Act, 1985, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-9"
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"Apex Tech Infrastructure Pvt Ltd\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Revenue Survey Number Verified",
+            "detail": "Survey Number \"S.No. 142/2B\" matches across FMB Sketch, Sale Deed, and Architectural Site Plan."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "Apex Tech Infrastructure Pvt Ltd",
+          "surveyNumber": "S.No. 142/2B",
+          "plotArea": "2400 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-201",
@@ -538,7 +626,37 @@
       "professionalReview": null,
       "submissionPackage": null,
       "governmentTracking": null,
-      "createdAt": "2026-08-22T11:00:00.000Z"
+      "createdAt": "2026-08-22T11:00:00.000Z",
+      "audit": {
+        "permitId": "pmt-tn-201",
+        "projectId": "proj-tn-02",
+        "readinessScore": 35,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "OSR_COMPLIANCE_MANDATORY",
+            "title": "Open Space Reservation (OSR) Deed Required (Rule 41)",
+            "detail": "Plot area is 3200 sq.m (>= 3,000 sq.m threshold). 10% OSR reservation or equivalent guideline value remittance is mandatory under TNCDBR Rule 41."
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Mandatory Document Completeness",
+            "detail": "All 0 mandatory documents have been uploaded."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 24m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "KG Promoters & Developers",
+          "surveyNumber": "T.S. No. 88/1A",
+          "plotArea": "3200 sq.m",
+          "roadWidth": "24 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789641014230",
@@ -711,7 +829,43 @@
         ]
       },
       "governmentTracking": null,
-      "createdAt": "2026-09-17T10:30:14.230Z"
+      "createdAt": "2026-09-17T10:30:14.230Z",
+      "audit": {
+        "permitId": "pmt-tn-1789641014230",
+        "projectId": "proj-tn-1789641014230",
+        "readinessScore": 100,
+        "status": "CLEARED_FOR_SUBMISSION",
+        "blockers": [],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Mandatory Document Completeness",
+            "detail": "All 11 mandatory documents have been uploaded."
+          },
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"TechPark Infra Ventures LLP\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Revenue Survey Number Verified",
+            "detail": "Survey Number \"S.No. 204/1A\" matches across FMB Sketch, Sale Deed, and Architectural Site Plan."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 12m."
+          },
+          {
+            "title": "OSR Compliance Verified",
+            "detail": "10% Open Space Reservation deed attached in accordance with TNCDBR Rule 41."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "TechPark Infra Ventures LLP",
+          "surveyNumber": "S.No. 204/1A",
+          "plotArea": "3600 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789641055365",
@@ -727,7 +881,7 @@
         "standardReviewDays": 30,
         "delegatedLocalBody": "Greater Chennai Corporation (GCC) / Municipalities"
       },
-      "status": "GOVT_SCRUTINY_IN_PROGRESS",
+      "status": "PACKAGE_GENERATED",
       "minRoadWidthRequired": 12,
       "actualRoadWidth": 18,
       "isRoadWidthCompliant": true,
@@ -745,8 +899,8 @@
         "recommendations": "All revenue boundaries, setback offsets, and structural stability certificates verified in order."
       },
       "submissionPackage": {
-        "packageId": "PKG-TN-1789641055418",
-        "generatedAt": "2026-09-17T10:30:55.418Z",
+        "packageId": "PKG-TN-1789662936203",
+        "generatedAt": "2026-09-17T16:35:36.203Z",
         "project": {
           "id": "proj-tn-1789641055364",
           "name": "OMR Cyber Park Phase 1",
@@ -900,7 +1054,43 @@
         ],
         "queries": []
       },
-      "createdAt": "2026-09-17T10:30:55.365Z"
+      "createdAt": "2026-09-17T10:30:55.365Z",
+      "audit": {
+        "permitId": "pmt-tn-1789641055365",
+        "projectId": "proj-tn-1789641055364",
+        "readinessScore": 100,
+        "status": "CLEARED_FOR_SUBMISSION",
+        "blockers": [],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Mandatory Document Completeness",
+            "detail": "All 11 mandatory documents have been uploaded."
+          },
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"TechPark Infra Ventures LLP\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Revenue Survey Number Verified",
+            "detail": "Survey Number \"S.No. 204/1A\" matches across FMB Sketch, Sale Deed, and Architectural Site Plan."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 12m."
+          },
+          {
+            "title": "OSR Compliance Verified",
+            "detail": "10% Open Space Reservation deed attached in accordance with TNCDBR Rule 41."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "TechPark Infra Ventures LLP",
+          "surveyNumber": "S.No. 204/1A",
+          "plotArea": "3600 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789641074024",
@@ -1091,7 +1281,43 @@
         ],
         "queries": []
       },
-      "createdAt": "2026-09-17T10:31:14.024Z"
+      "createdAt": "2026-09-17T10:31:14.024Z",
+      "audit": {
+        "permitId": "pmt-tn-1789641074024",
+        "projectId": "proj-tn-1789641074024",
+        "readinessScore": 100,
+        "status": "CLEARED_FOR_SUBMISSION",
+        "blockers": [],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Mandatory Document Completeness",
+            "detail": "All 11 mandatory documents have been uploaded."
+          },
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"TechPark Infra Ventures LLP\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Revenue Survey Number Verified",
+            "detail": "Survey Number \"S.No. 204/1A\" matches across FMB Sketch, Sale Deed, and Architectural Site Plan."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 12m."
+          },
+          {
+            "title": "OSR Compliance Verified",
+            "detail": "10% Open Space Reservation deed attached in accordance with TNCDBR Rule 41."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "TechPark Infra Ventures LLP",
+          "surveyNumber": "S.No. 204/1A",
+          "plotArea": "3600 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789642095745",
@@ -1298,7 +1524,43 @@
         "queries": [],
         "demandNoticeAmount": 650000
       },
-      "createdAt": "2026-09-17T10:48:15.745Z"
+      "createdAt": "2026-09-17T10:48:15.745Z",
+      "audit": {
+        "permitId": "pmt-tn-1789642095745",
+        "projectId": "proj-tn-1789642095745",
+        "readinessScore": 100,
+        "status": "CLEARED_FOR_SUBMISSION",
+        "blockers": [],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Mandatory Document Completeness",
+            "detail": "All 11 mandatory documents have been uploaded."
+          },
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"Ascendas IT Park Chennai Ltd\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Revenue Survey Number Verified",
+            "detail": "Survey Number \"S.No. 88/2A\" matches across FMB Sketch, Sale Deed, and Architectural Site Plan."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 12m."
+          },
+          {
+            "title": "OSR Compliance Verified",
+            "detail": "10% Open Space Reservation deed attached in accordance with TNCDBR Rule 41."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "Ascendas IT Park Chennai Ltd",
+          "surveyNumber": "S.No. 88/2A",
+          "plotArea": "3400 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789661495354",
@@ -1325,7 +1587,88 @@
       "professionalReview": null,
       "submissionPackage": null,
       "governmentTracking": null,
-      "createdAt": "2026-09-17T16:11:35.354Z"
+      "createdAt": "2026-09-17T16:11:35.354Z",
+      "audit": {
+        "permitId": "pmt-tn-1789661495354",
+        "projectId": "proj-tn-1789661495354",
+        "readinessScore": 0,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Latest Patta / Chitta / Town Survey Land Record (TSLR) Extract",
+            "detail": "Under TNCDBR-2019 Rule 10(1) & Tamil Nadu Revenue Department Circulars, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-1"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Registered Title Deed / Parent Sale Deeds (Complete Chain)",
+            "detail": "Under TNCDBR-2019 Rule 10(2) & Registration Act 1908, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-2"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Encumbrance Certificate (EC) for 13 to 30 Years",
+            "detail": "Under TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-3"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Field Measurement Book (FMB) Sketch / Certified Town Survey Sketch",
+            "detail": "Under TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-4"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Combined Revenue Sketch & Approach Road Connectivity Map",
+            "detail": "Under TNCDBR-2019 Rule 35 - Approach Road Width Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-5"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+            "detail": "Under TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-6"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Structural Stability Certificate & Foundation Design (Form II & III)",
+            "detail": "Under TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-7"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+            "detail": "Under TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-8"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Directorate of Fire and Rescue Services (DFRS) Preliminary NOC",
+            "detail": "Under TNCDBR-2019 Rule 42 & Tamil Nadu Fire Service Act, 1985, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-9"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: TNRERA Form-A Affidavit & Registration Declaration",
+            "detail": "Under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661495355-10"
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "Coimbatore Infrastructure Corp Ltd",
+          "surveyNumber": "T.S. No. 104/3A",
+          "plotArea": "2800 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789661520834",
@@ -1352,7 +1695,93 @@
       "professionalReview": null,
       "submissionPackage": null,
       "governmentTracking": null,
-      "createdAt": "2026-09-17T16:12:00.834Z"
+      "createdAt": "2026-09-17T16:12:00.834Z",
+      "audit": {
+        "permitId": "pmt-tn-1789661520834",
+        "projectId": "proj-tn-1789661520834",
+        "readinessScore": 0,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Registered Title Deed / Parent Sale Deeds (Complete Chain)",
+            "detail": "Under TNCDBR-2019 Rule 10(2) & Registration Act 1908, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-2"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Encumbrance Certificate (EC) for 13 to 30 Years",
+            "detail": "Under TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-3"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Field Measurement Book (FMB) Sketch / Certified Town Survey Sketch",
+            "detail": "Under TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-4"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Combined Revenue Sketch & Approach Road Connectivity Map",
+            "detail": "Under TNCDBR-2019 Rule 35 - Approach Road Width Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-5"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+            "detail": "Under TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-6"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Structural Stability Certificate & Foundation Design (Form II & III)",
+            "detail": "Under TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-7"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+            "detail": "Under TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-8"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Open Space Reservation (OSR) Gift Deed / Guideline Value Declaration",
+            "detail": "Under TNCDBR-2019 Rule 41 - Open Space Reservation (OSR), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-9"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Directorate of Fire and Rescue Services (DFRS) Preliminary NOC",
+            "detail": "Under TNCDBR-2019 Rule 42 & Tamil Nadu Fire Service Act, 1985, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-10"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: TNRERA Form-A Affidavit & Registration Declaration",
+            "detail": "Under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661520834-11"
+          },
+          {
+            "code": "OSR_COMPLIANCE_MANDATORY",
+            "title": "Open Space Reservation (OSR) Deed Required (Rule 41)",
+            "detail": "Plot area is 3200 sq.m (>= 3,000 sq.m threshold). 10% OSR reservation or equivalent guideline value remittance is mandatory under TNCDBR Rule 41."
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "Coimbatore Infrastructure Corp Ltd",
+          "surveyNumber": "T.S. No. 104/3A",
+          "plotArea": "3200 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789661555612",
@@ -1387,7 +1816,91 @@
       },
       "submissionPackage": null,
       "governmentTracking": null,
-      "createdAt": "2026-09-17T16:12:35.612Z"
+      "createdAt": "2026-09-17T16:12:35.612Z",
+      "audit": {
+        "permitId": "pmt-tn-1789661555612",
+        "projectId": "proj-tn-1789661555612",
+        "readinessScore": 10,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Encumbrance Certificate (EC) for 13 to 30 Years",
+            "detail": "Under TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-3"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Field Measurement Book (FMB) Sketch / Certified Town Survey Sketch",
+            "detail": "Under TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-4"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Combined Revenue Sketch & Approach Road Connectivity Map",
+            "detail": "Under TNCDBR-2019 Rule 35 - Approach Road Width Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-5"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+            "detail": "Under TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-6"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Structural Stability Certificate & Foundation Design (Form II & III)",
+            "detail": "Under TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-7"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+            "detail": "Under TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-8"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Open Space Reservation (OSR) Gift Deed / Guideline Value Declaration",
+            "detail": "Under TNCDBR-2019 Rule 41 - Open Space Reservation (OSR), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-9"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Directorate of Fire and Rescue Services (DFRS) Preliminary NOC",
+            "detail": "Under TNCDBR-2019 Rule 42 & Tamil Nadu Fire Service Act, 1985, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-10"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: TNRERA Form-A Affidavit & Registration Declaration",
+            "detail": "Under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661555612-11"
+          },
+          {
+            "code": "OSR_COMPLIANCE_MANDATORY",
+            "title": "Open Space Reservation (OSR) Deed Required (Rule 41)",
+            "detail": "Plot area is 3200 sq.m (>= 3,000 sq.m threshold). 10% OSR reservation or equivalent guideline value remittance is mandatory under TNCDBR Rule 41."
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"Coimbatore Infrastructure Corp Ltd\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "Coimbatore Infrastructure Corp Ltd",
+          "surveyNumber": "T.S. No. 104/3A",
+          "plotArea": "3200 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789661597591",
@@ -1422,7 +1935,91 @@
       },
       "submissionPackage": null,
       "governmentTracking": null,
-      "createdAt": "2026-09-17T16:13:17.591Z"
+      "createdAt": "2026-09-17T16:13:17.591Z",
+      "audit": {
+        "permitId": "pmt-tn-1789661597591",
+        "projectId": "proj-tn-1789661597591",
+        "readinessScore": 10,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Encumbrance Certificate (EC) for 13 to 30 Years",
+            "detail": "Under TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-3"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Field Measurement Book (FMB) Sketch / Certified Town Survey Sketch",
+            "detail": "Under TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-4"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Combined Revenue Sketch & Approach Road Connectivity Map",
+            "detail": "Under TNCDBR-2019 Rule 35 - Approach Road Width Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-5"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+            "detail": "Under TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-6"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Structural Stability Certificate & Foundation Design (Form II & III)",
+            "detail": "Under TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-7"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+            "detail": "Under TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-8"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Open Space Reservation (OSR) Gift Deed / Guideline Value Declaration",
+            "detail": "Under TNCDBR-2019 Rule 41 - Open Space Reservation (OSR), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-9"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Directorate of Fire and Rescue Services (DFRS) Preliminary NOC",
+            "detail": "Under TNCDBR-2019 Rule 42 & Tamil Nadu Fire Service Act, 1985, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-10"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: TNRERA Form-A Affidavit & Registration Declaration",
+            "detail": "Under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661597591-11"
+          },
+          {
+            "code": "OSR_COMPLIANCE_MANDATORY",
+            "title": "Open Space Reservation (OSR) Deed Required (Rule 41)",
+            "detail": "Plot area is 3200 sq.m (>= 3,000 sq.m threshold). 10% OSR reservation or equivalent guideline value remittance is mandatory under TNCDBR Rule 41."
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"Coimbatore Infrastructure Corp Ltd\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "Coimbatore Infrastructure Corp Ltd",
+          "surveyNumber": "T.S. No. 104/3A",
+          "plotArea": "3200 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789661636844",
@@ -1525,7 +2122,91 @@
         ],
         "queries": []
       },
-      "createdAt": "2026-09-17T16:13:56.844Z"
+      "createdAt": "2026-09-17T16:13:56.844Z",
+      "audit": {
+        "permitId": "pmt-tn-1789661636844",
+        "projectId": "proj-tn-1789661636844",
+        "readinessScore": 10,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Encumbrance Certificate (EC) for 13 to 30 Years",
+            "detail": "Under TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-3"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Field Measurement Book (FMB) Sketch / Certified Town Survey Sketch",
+            "detail": "Under TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-4"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Combined Revenue Sketch & Approach Road Connectivity Map",
+            "detail": "Under TNCDBR-2019 Rule 35 - Approach Road Width Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-5"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+            "detail": "Under TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-6"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Structural Stability Certificate & Foundation Design (Form II & III)",
+            "detail": "Under TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-7"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+            "detail": "Under TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-8"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Open Space Reservation (OSR) Gift Deed / Guideline Value Declaration",
+            "detail": "Under TNCDBR-2019 Rule 41 - Open Space Reservation (OSR), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-9"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Directorate of Fire and Rescue Services (DFRS) Preliminary NOC",
+            "detail": "Under TNCDBR-2019 Rule 42 & Tamil Nadu Fire Service Act, 1985, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-10"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: TNRERA Form-A Affidavit & Registration Declaration",
+            "detail": "Under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661636845-11"
+          },
+          {
+            "code": "OSR_COMPLIANCE_MANDATORY",
+            "title": "Open Space Reservation (OSR) Deed Required (Rule 41)",
+            "detail": "Plot area is 3200 sq.m (>= 3,000 sq.m threshold). 10% OSR reservation or equivalent guideline value remittance is mandatory under TNCDBR Rule 41."
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"Coimbatore Infrastructure Corp Ltd\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "Coimbatore Infrastructure Corp Ltd",
+          "surveyNumber": "T.S. No. 104/3A",
+          "plotArea": "3200 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     },
     {
       "id": "pmt-tn-1789661691806",
@@ -1628,7 +2309,199 @@
         ],
         "queries": []
       },
-      "createdAt": "2026-09-17T16:14:51.806Z"
+      "createdAt": "2026-09-17T16:14:51.806Z",
+      "audit": {
+        "permitId": "pmt-tn-1789661691806",
+        "projectId": "proj-tn-1789661691806",
+        "readinessScore": 10,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Encumbrance Certificate (EC) for 13 to 30 Years",
+            "detail": "Under TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-3"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Field Measurement Book (FMB) Sketch / Certified Town Survey Sketch",
+            "detail": "Under TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-4"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Combined Revenue Sketch & Approach Road Connectivity Map",
+            "detail": "Under TNCDBR-2019 Rule 35 - Approach Road Width Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-5"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+            "detail": "Under TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-6"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Structural Stability Certificate & Foundation Design (Form II & III)",
+            "detail": "Under TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-7"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+            "detail": "Under TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-8"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Open Space Reservation (OSR) Gift Deed / Guideline Value Declaration",
+            "detail": "Under TNCDBR-2019 Rule 41 - Open Space Reservation (OSR), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-9"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Directorate of Fire and Rescue Services (DFRS) Preliminary NOC",
+            "detail": "Under TNCDBR-2019 Rule 42 & Tamil Nadu Fire Service Act, 1985, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-10"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: TNRERA Form-A Affidavit & Registration Declaration",
+            "detail": "Under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789661691806-11"
+          },
+          {
+            "code": "OSR_COMPLIANCE_MANDATORY",
+            "title": "Open Space Reservation (OSR) Deed Required (Rule 41)",
+            "detail": "Plot area is 3200 sq.m (>= 3,000 sq.m threshold). 10% OSR reservation or equivalent guideline value remittance is mandatory under TNCDBR Rule 41."
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Ownership Consistency Verified",
+            "detail": "Owner name \"Coimbatore Infrastructure Corp Ltd\" matches consistently across Registered Sale Deed and Patta/TSLR."
+          },
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "Coimbatore Infrastructure Corp Ltd",
+          "surveyNumber": "T.S. No. 104/3A",
+          "plotArea": "3200 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
+    },
+    {
+      "id": "pmt-tn-1789662315292",
+      "projectId": "proj-tn-1789662315291",
+      "permitType": "Residential Building Plan Approval",
+      "authority": {
+        "id": "DTCP",
+        "name": "Directorate of Town and Country Planning (DTCP)",
+        "state": "Tamil Nadu",
+        "portalUrl": "https://dtcp.tn.gov.in",
+        "governingCode": "TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971",
+        "description": "Apex planning directorate overseeing development permissions across 37 districts of Tamil Nadu outside CMA.",
+        "standardReviewDays": 30,
+        "delegatedLocalBody": "City Municipal Corporations / Town Panchayats / Village Panchayats"
+      },
+      "status": "AUDIT_IN_PROGRESS",
+      "minRoadWidthRequired": 9,
+      "actualRoadWidth": 18,
+      "isRoadWidthCompliant": true,
+      "buildingClass": "Non-High Rise Building (NHRB)",
+      "targetSubmissionDate": "2026-11-30",
+      "actualSubmissionDate": null,
+      "notes": "Tamil Nadu planning permission submittal for Non-High Rise Building (NHRB) under Directorate of Town and Country Planning (DTCP).",
+      "professionalReview": null,
+      "submissionPackage": null,
+      "governmentTracking": null,
+      "createdAt": "2026-09-17T16:25:15.292Z",
+      "audit": {
+        "permitId": "pmt-tn-1789662315292",
+        "projectId": "proj-tn-1789662315291",
+        "readinessScore": 0,
+        "status": "HAS_BLOCKERS",
+        "blockers": [
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Latest Patta / Chitta / Town Survey Land Record (TSLR) Extract",
+            "detail": "Under TNCDBR-2019 Rule 10(1) & Tamil Nadu Revenue Department Circulars, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-1"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Registered Title Deed / Parent Sale Deeds (Complete Chain)",
+            "detail": "Under TNCDBR-2019 Rule 10(2) & Registration Act 1908, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-2"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Encumbrance Certificate (EC) for 13 to 30 Years",
+            "detail": "Under TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-3"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Field Measurement Book (FMB) Sketch / Certified Town Survey Sketch",
+            "detail": "Under TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-4"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Combined Revenue Sketch & Approach Road Connectivity Map",
+            "detail": "Under TNCDBR-2019 Rule 35 - Approach Road Width Verification, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-5"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Structural Stability Certificate & Foundation Design (Form II & III)",
+            "detail": "Under TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-7"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+            "detail": "Under TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-8"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Water Resources Department (WRD / PWD) Inundation & Buffer NOC",
+            "detail": "Under Tamil Nadu Protection of Tanks and Eviction of Encroachment Act 2007 & TNCDBR Rule 19, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-9"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: Airports Authority of India (AAI) NOC for Height Clearance",
+            "detail": "Under Ministry of Civil Aviation (GSR 751(E)) & TNCDBR Rule 22, this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-10"
+          },
+          {
+            "code": "MISSING_MANDATORY_DOC",
+            "title": "Missing Required Document: TNRERA Form-A Affidavit & Registration Declaration",
+            "detail": "Under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules), this document is mandatory prior to CMDA/DTCP submission.",
+            "requirementId": "req-tn-1789662315293-11"
+          }
+        ],
+        "warnings": [],
+        "passedChecks": [
+          {
+            "title": "Road Width Conformance (TNCDBR Rule 35/39)",
+            "detail": "Abutting road width of 18m satisfies statutory requirement of minimum 9m."
+          }
+        ],
+        "extractedSummary": {
+          "ownerName": "arunkumar",
+          "surveyNumber": "S.No 142/2B",
+          "plotArea": "2500 sq.m",
+          "roadWidth": "18 m"
+        }
+      }
     }
   ],
   "requirements": [
@@ -4113,6 +4986,209 @@
       "verificationBadge": "❌ Missing",
       "verificationReason": "Required document not yet uploaded. Mandatory under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules).",
       "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-1",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "PATTA_CHITTA_TSLR",
+      "documentType": "PATTA_CHITTA_TSLR",
+      "category": "Land Ownership & Revenue",
+      "name": "Latest Patta / Chitta / Town Survey Land Record (TSLR) Extract",
+      "description": "Extract from A-Register or TSLR issued by Revenue Dept (AnyWhere / E-Services) in the name of the present owner/applicant with correct Survey/T.S. Number.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "TNCDBR-2019 Rule 10(1) & Tamil Nadu Revenue Department Circulars",
+      "acceptedFormats": "PDF (Official Digital Stamp/QR)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under TNCDBR-2019 Rule 10(1) & Tamil Nadu Revenue Department Circulars.",
+      "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-2",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "REGISTERED_TITLE_DEED",
+      "documentType": "REGISTERED_TITLE_DEED",
+      "category": "Land Ownership & Revenue",
+      "name": "Registered Title Deed / Parent Sale Deeds (Complete Chain)",
+      "description": "Certified copy of registered Sale Deed, Partition Deed, or Gift Deed with Doc No., Year, and Sub-Registrar Office (SRO) seal establishing clear legal title.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "TNCDBR-2019 Rule 10(2) & Registration Act 1908",
+      "acceptedFormats": "PDF (Certified True Copy)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under TNCDBR-2019 Rule 10(2) & Registration Act 1908.",
+      "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-3",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "ENCUMBRANCE_CERTIFICATE",
+      "documentType": "ENCUMBRANCE_CERTIFICATE",
+      "category": "Land Ownership & Revenue",
+      "name": "Encumbrance Certificate (EC) for 13 to 30 Years",
+      "description": "Nil-encumbrance certificate obtained from TNREGINET covering at least 13 years up to the current date, verifying free and clear title.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification",
+      "acceptedFormats": "PDF (TNREGINET Digital Certified Copy)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under TNCDBR-2019 Rule 10(3) - Title Encumbrance Verification.",
+      "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-4",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "FMB_TOWN_SURVEY_SKETCH",
+      "documentType": "FMB_TOWN_SURVEY_SKETCH",
+      "category": "Land Ownership & Revenue",
+      "name": "Field Measurement Book (FMB) Sketch / Certified Town Survey Sketch",
+      "description": "Certified copy of FMB sketch showing subdivisional measurements, boundary offsets, ladder details, and adjacent survey boundaries.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries",
+      "acceptedFormats": "PDF / CAD DWG (Surveyor Signed)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under TNCDBR-2019 Rule 10(4) - Revenue Survey Boundaries.",
+      "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-5",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "COMBINED_ACCESS_SKETCH",
+      "documentType": "COMBINED_ACCESS_SKETCH",
+      "category": "Land Ownership & Revenue",
+      "name": "Combined Revenue Sketch & Approach Road Connectivity Map",
+      "description": "Topographical sketch prepared by licensed surveyor showing unbroken continuity of approach public road width up to the site.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "TNCDBR-2019 Rule 35 - Approach Road Width Verification",
+      "acceptedFormats": "PDF / CAD (Licensed Surveyor Stamped)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under TNCDBR-2019 Rule 35 - Approach Road Width Verification.",
+      "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-6",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "ARCHITECTURAL_PLANS",
+      "documentType": "ARCHITECTURAL_PLANS",
+      "category": "Architectural & Engineering",
+      "name": "Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+      "description": "Complete plan set conforming to TNCDBR-2019: Key Plan (1:10000), Site Plan (1:500) showing front/side/rear setbacks, Floor Plans, Cross-Sections, Terrace Plan with Rain Water Harvesting (RWH) sump, and Parking calculation table. Stamped by Registered Architect (COA) or Licensed Building Surveyor.",
+      "isMandatory": true,
+      "status": "UPLOADED",
+      "regulatoryCitation": "TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards)",
+      "acceptedFormats": "PDF & PreDCR DWG",
+      "verificationStatus": "Appears Valid",
+      "verificationBadge": "✅ Appears Valid",
+      "verificationReason": "Verified valid Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant) conforming to TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards). Key details and statutory endorsements verified.",
+      "extractedDetails": {
+        "ownerName": "arunkumar",
+        "surveyNumber": "S.No 142/2B",
+        "plotArea": "2500 sq.m",
+        "roadWidth": "18 meters",
+        "documentNumber": "Doc No. 4118/2021",
+        "sroName": "SRO Gandhipuram",
+        "engineerStamp": "CA/2014/54120 (Registered Architect)"
+      }
+    },
+    {
+      "id": "req-tn-1789662315293-7",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "STRUCTURAL_STABILITY_CERTIFICATE",
+      "documentType": "STRUCTURAL_STABILITY_CERTIFICATE",
+      "category": "Architectural & Engineering",
+      "name": "Structural Stability Certificate & Foundation Design (Form II & III)",
+      "description": "Structural calculation report and foundation framing schedule conforming to seismic zone III standards, stamped by Class-I / Class-II Structural Engineer registered with CMDA / DTCP.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6)",
+      "acceptedFormats": "PDF (SE Stamped Form II & III)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under TNCDBR-2019 Rule 11(5) & National Building Code (NBC 2016 Part 6).",
+      "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-8",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "SOIL_TEST_GEOTECH_REPORT",
+      "documentType": "SOIL_TEST_GEOTECH_REPORT",
+      "category": "Architectural & Engineering",
+      "name": "Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report",
+      "description": "Borehole log test report from certified geotechnical laboratory determining sub-soil stratification, water table, and allowable foundation bearing pressure.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "TNCDBR-2019 Rule 11(6) - Geotechnical Soil Investigation",
+      "acceptedFormats": "PDF (Lab Certified Report)",
+      "verificationStatus": "Invalid",
+      "verificationBadge": "❌ Invalid",
+      "verificationReason": "The uploaded document '36472-1._architectural_final.pdf' is an architectural drawing file, not the required Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report mandated by TNCDBR-2019 Rule 11(6).",
+      "extractedDetails": {
+        "ownerName": null,
+        "surveyNumber": null,
+        "plotArea": null,
+        "roadWidth": null,
+        "documentNumber": null,
+        "sroName": null,
+        "engineerStamp": null
+      }
+    },
+    {
+      "id": "req-tn-1789662315293-9",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "PWD_WRD_INUNDATION_NOC",
+      "documentType": "PWD_WRD_INUNDATION_NOC",
+      "category": "Environmental & Waterbody Clearance",
+      "name": "Water Resources Department (WRD / PWD) Inundation & Buffer NOC",
+      "description": "Site is located within 15m to 500m of a water body, river, tank, or drainage surplus channel. Requires Executive Engineer WRD clearance confirming non-inundation and buffer protection.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "Tamil Nadu Protection of Tanks and Eviction of Encroachment Act 2007 & TNCDBR Rule 19",
+      "acceptedFormats": "PDF (WRD Executive Engineer Signed NOC)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under Tamil Nadu Protection of Tanks and Eviction of Encroachment Act 2007 & TNCDBR Rule 19.",
+      "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-10",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "AAI_HEIGHT_CLEARANCE_NOC",
+      "documentType": "AAI_HEIGHT_CLEARANCE_NOC",
+      "category": "Aviation Safety Clearance",
+      "name": "Airports Authority of India (AAI) NOC for Height Clearance",
+      "description": "Site falls within Obstacle Limitation Surfaces (OLS) funnel of Chennai/Tambaram/Coimbatore Airport. Requires NOCAS WGS-84 coordinate height clearance certificate.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "Ministry of Civil Aviation (GSR 751(E)) & TNCDBR Rule 22",
+      "acceptedFormats": "PDF (AAI NOCAS Online Certificate)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under Ministry of Civil Aviation (GSR 751(E)) & TNCDBR Rule 22.",
+      "extractedDetails": {}
+    },
+    {
+      "id": "req-tn-1789662315293-11",
+      "permitId": "pmt-tn-1789662315292",
+      "idKey": "TNRERA_REGISTRATION_DECLARATION",
+      "documentType": "TNRERA_REGISTRATION_DECLARATION",
+      "category": "Consumer Protection Clearance",
+      "name": "TNRERA Form-A Affidavit & Registration Declaration",
+      "description": "Real estate development with more than 8 dwelling units or land area exceeding 500 sq.m requires statutory undertaking for TNRERA registration prior to advertising or sale.",
+      "isMandatory": true,
+      "status": "PENDING",
+      "regulatoryCitation": "Real Estate (Regulation and Development) Act 2016 (TNRERA Rules)",
+      "acceptedFormats": "PDF (Notarized Affidavit Form-A)",
+      "verificationStatus": "Missing",
+      "verificationBadge": "❌ Missing",
+      "verificationReason": "Required document not yet uploaded. Mandatory under Real Estate (Regulation and Development) Act 2016 (TNRERA Rules).",
+      "extractedDetails": {}
     }
   ],
   "documents": [
@@ -6426,9 +7502,180 @@
         "provider": "Gemini 3 Flash (Multimodal AI)",
         "isVerified": true
       }
+    },
+    {
+      "id": "doc-tn-1789662369842",
+      "requirementId": "req-tn-1789662315293-6",
+      "fileName": "v1_36472-1._architectural_final.pdf",
+      "originalName": "36472-1._architectural_final.pdf",
+      "fileSizeBytes": 4539018,
+      "mimeType": "application/pdf",
+      "fileText": "",
+      "version": 1,
+      "isCurrent": true,
+      "storageKey": "firebase-storage://permits/pmt-tn-1789662315292/req-tn-1789662315293-6/v1_36472-1._architectural_final.pdf",
+      "uploadedById": "usr-1",
+      "createdAt": "2026-09-17T16:26:09.842Z",
+      "verification": {
+        "aiStatus": "Appears Valid",
+        "badge": "✅ Appears Valid",
+        "badgeClass": "bg-emerald-50 text-emerald-700 border-emerald-200",
+        "reason": "The uploaded architectural document matches the required type and contains the necessary details for PreDCR/AutoDCR compliance under TNCDBR-2019.",
+        "detectedDocumentType": "Detailed Architectural Drawings & Site Plan",
+        "extractedDetails": {
+          "ownerName": "arunkumar",
+          "surveyNumber": "S.No 142/2B",
+          "plotArea": "2500 sq.m",
+          "roadWidth": "18 meters",
+          "documentNumber": null,
+          "sroName": null,
+          "engineerStamp": "Present"
+        },
+        "discrepancies": [],
+        "completenessScore": 90,
+        "isReadable": true,
+        "disclaimer": "Automated AI preliminary verification under TNCDBR-2019 guidelines. Does not constitute legal title certification or government sanction. Final authority rests solely with the competent planning agency (CMDA/DTCP/GCC).",
+        "provider": "Gemini 3 Flash (Multimodal AI)",
+        "isVerified": true
+      }
+    },
+    {
+      "id": "doc-tn-1789662360811",
+      "requirementId": "req-tn-1789662315293-6",
+      "fileName": "v1_36472-1._architectural_final.pdf",
+      "originalName": "36472-1._architectural_final.pdf",
+      "fileSizeBytes": 4539018,
+      "mimeType": "application/pdf",
+      "fileText": "",
+      "version": 1,
+      "isCurrent": true,
+      "storageKey": "firebase-storage://permits/pmt-tn-1789662315292/req-tn-1789662315293-6/v1_36472-1._architectural_final.pdf",
+      "uploadedById": "usr-1",
+      "createdAt": "2026-09-17T16:26:00.811Z",
+      "verification": {
+        "aiStatus": "Appears Valid",
+        "badge": "✅ Appears Valid",
+        "badgeClass": "bg-emerald-50 text-emerald-700 border-emerald-200",
+        "reason": "Verified valid Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant) conforming to TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards). Key details and statutory endorsements verified.",
+        "detectedDocumentType": "Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+        "extractedDetails": {
+          "ownerName": "arunkumar",
+          "surveyNumber": "S.No 142/2B",
+          "plotArea": "2500 sq.m",
+          "roadWidth": "18 meters",
+          "documentNumber": "Doc No. 4118/2021",
+          "sroName": "SRO Gandhipuram",
+          "engineerStamp": "CA/2014/54120 (Registered Architect)"
+        },
+        "discrepancies": [],
+        "completenessScore": 92,
+        "isReadable": true,
+        "disclaimer": "Automated AI preliminary verification under TNCDBR-2019 guidelines. Does not constitute legal title certification or government sanction. Final authority rests solely with the competent planning agency (CMDA/DTCP/GCC).",
+        "provider": "PermitFlow Guard (Local Fallback)",
+        "isVerified": true
+      }
+    },
+    {
+      "id": "doc-tn-1789662402289",
+      "requirementId": "req-tn-1789662315293-8",
+      "fileName": "v1_36472-1._architectural_final.pdf",
+      "originalName": "36472-1._architectural_final.pdf",
+      "fileSizeBytes": 4539018,
+      "mimeType": "application/pdf",
+      "fileText": "",
+      "version": 1,
+      "isCurrent": true,
+      "storageKey": "firebase-storage://permits/pmt-tn-1789662315292/req-tn-1789662315293-8/v1_36472-1._architectural_final.pdf",
+      "uploadedById": "usr-1",
+      "createdAt": "2026-09-17T16:26:42.289Z",
+      "verification": {
+        "aiStatus": "Invalid",
+        "badge": "❌ Invalid",
+        "badgeClass": "bg-rose-50 text-rose-700 border-rose-200",
+        "reason": "The uploaded document '36472-1._architectural_final.pdf' is an architectural drawing file, not the required Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report mandated by TNCDBR-2019 Rule 11(6).",
+        "detectedDocumentType": "Architectural Final Drawing",
+        "extractedDetails": {
+          "ownerName": null,
+          "surveyNumber": null,
+          "plotArea": null,
+          "roadWidth": null,
+          "documentNumber": null,
+          "sroName": null,
+          "engineerStamp": null
+        },
+        "discrepancies": [
+          "Uploaded document is an architectural drawing file instead of a Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report.",
+          "Missing mandatory soil classification, borehole logs, and Safe Bearing Capacity values required under TNCDBR-2019 Rule 11(6)."
+        ],
+        "completenessScore": 0,
+        "isReadable": true,
+        "disclaimer": "Automated AI preliminary verification under TNCDBR-2019 guidelines. Does not constitute legal title certification or government sanction. Final authority rests solely with the competent planning agency (CMDA/DTCP/GCC).",
+        "provider": "Gemini 3 Flash (Multimodal AI)",
+        "isVerified": false
+      }
     }
   ],
   "auditLogs": [
+    {
+      "id": "aud-tn-1789662936203",
+      "permitId": "pmt-tn-1789641055365",
+      "changedById": "usr-1",
+      "action": "PACKAGE_GENERATED",
+      "fromStatus": null,
+      "toStatus": "PACKAGE_GENERATED",
+      "details": "Compiled official submittal dossier [Package ID: PKG-TN-1789662936203] with 11 indexed documents. Ready for CMDA/DTCP portal upload.",
+      "createdAt": "2026-09-17T16:35:36.203Z"
+    },
+    {
+      "id": "aud-tn-1789662927188",
+      "permitId": "pmt-tn-1789641055365",
+      "changedById": "usr-1",
+      "action": "PACKAGE_GENERATED",
+      "fromStatus": null,
+      "toStatus": "PACKAGE_GENERATED",
+      "details": "Compiled official submittal dossier [Package ID: PKG-TN-1789662927184] with 11 indexed documents. Ready for CMDA/DTCP portal upload.",
+      "createdAt": "2026-09-17T16:35:27.188Z"
+    },
+    {
+      "id": "aud-tn-1789662404543",
+      "permitId": "pmt-tn-1789662315292",
+      "changedById": "usr-1",
+      "action": "DOCUMENT_AI_VERIFIED",
+      "fromStatus": null,
+      "toStatus": "AUDIT_IN_PROGRESS",
+      "details": "Uploaded v1 (36472-1._architectural_final.pdf). AI Inspection: [❌ Invalid] The uploaded document '36472-1._architectural_final.pdf' is an architectural drawing file, not the required Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report mandated by TNCDBR-2019 Rule 11(6).",
+      "createdAt": "2026-09-17T16:26:44.543Z"
+    },
+    {
+      "id": "aud-tn-1789662404249",
+      "permitId": "pmt-tn-1789662315292",
+      "changedById": "usr-1",
+      "action": "DOCUMENT_AI_VERIFIED",
+      "fromStatus": null,
+      "toStatus": "AUDIT_IN_PROGRESS",
+      "details": "Uploaded v1 (36472-1._architectural_final.pdf). AI Inspection: [✅ Appears Valid] Verified valid Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant) conforming to TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards). Key details and statutory endorsements verified.",
+      "createdAt": "2026-09-17T16:26:44.249Z"
+    },
+    {
+      "id": "aud-tn-1789662371746",
+      "permitId": "pmt-tn-1789662315292",
+      "changedById": "usr-1",
+      "action": "DOCUMENT_AI_VERIFIED",
+      "fromStatus": null,
+      "toStatus": "AUDIT_IN_PROGRESS",
+      "details": "Uploaded v1 (36472-1._architectural_final.pdf). AI Inspection: [✅ Appears Valid] The uploaded architectural document matches the required type and contains the necessary details for PreDCR/AutoDCR compliance under TNCDBR-2019.",
+      "createdAt": "2026-09-17T16:26:11.746Z"
+    },
+    {
+      "id": "aud-tn-1789662315293",
+      "permitId": "pmt-tn-1789662315292",
+      "changedById": "usr-1",
+      "action": "PROJECT_AND_CHECKLIST_INITIALIZED",
+      "fromStatus": null,
+      "toStatus": "AUDIT_IN_PROGRESS",
+      "details": "Created project in Coimbatore, Tamil Nadu. Assigned to Directorate of Town and Country Planning (DTCP). Generated 11 regulatory requirements under TNCDBR-2019.",
+      "createdAt": "2026-09-17T16:25:15.293Z"
+    },
     {
       "id": "aud-tn-1789661713694",
       "permitId": "pmt-tn-1789661691806",
@@ -7547,7 +8794,7 @@
       "message": "Commercial building exceeding 500 sq.m in Sholinganallur requires DFRS Fire NOC prior to CMDA Single Window submittal.",
       "type": "MISSING_DOCUMENTS",
       "linkUrl": "/permits/pmt-tn-101",
-      "isRead": false,
+      "isRead": true,
       "createdAt": "2026-09-15T08:00:00.000Z"
     }
   ],
@@ -8041,6 +9288,90 @@
       "provider": "Gemini 3 Flash (Multimodal AI)",
       "isVerified": true,
       "createdAt": "2026-09-17T16:15:13.594Z"
+    },
+    {
+      "id": "val-1789662371737-wzjhs",
+      "documentId": "doc-tn-1789662369842",
+      "requirementId": "req-tn-1789662315293-6",
+      "permitId": "pmt-tn-1789662315292",
+      "aiStatus": "Appears Valid",
+      "badge": "✅ Appears Valid",
+      "badgeClass": "bg-emerald-50 text-emerald-700 border-emerald-200",
+      "reason": "The uploaded architectural document matches the required type and contains the necessary details for PreDCR/AutoDCR compliance under TNCDBR-2019.",
+      "detectedDocumentType": "Detailed Architectural Drawings & Site Plan",
+      "extractedDetails": {
+        "ownerName": "arunkumar",
+        "surveyNumber": "S.No 142/2B",
+        "plotArea": "2500 sq.m",
+        "roadWidth": "18 meters",
+        "documentNumber": null,
+        "sroName": null,
+        "engineerStamp": "Present"
+      },
+      "discrepancies": [],
+      "completenessScore": 90,
+      "isReadable": true,
+      "disclaimer": "Automated AI preliminary verification under TNCDBR-2019 guidelines. Does not constitute legal title certification or government sanction. Final authority rests solely with the competent planning agency (CMDA/DTCP/GCC).",
+      "provider": "Gemini 3 Flash (Multimodal AI)",
+      "isVerified": true,
+      "createdAt": "2026-09-17T16:26:11.738Z"
+    },
+    {
+      "id": "val-1789662404238-jw2c6",
+      "documentId": "doc-tn-1789662360811",
+      "requirementId": "req-tn-1789662315293-6",
+      "permitId": "pmt-tn-1789662315292",
+      "aiStatus": "Appears Valid",
+      "badge": "✅ Appears Valid",
+      "badgeClass": "bg-emerald-50 text-emerald-700 border-emerald-200",
+      "reason": "Verified valid Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant) conforming to TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards). Key details and statutory endorsements verified.",
+      "detectedDocumentType": "Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant)",
+      "extractedDetails": {
+        "ownerName": "arunkumar",
+        "surveyNumber": "S.No 142/2B",
+        "plotArea": "2500 sq.m",
+        "roadWidth": "18 meters",
+        "documentNumber": "Doc No. 4118/2021",
+        "sroName": "SRO Gandhipuram",
+        "engineerStamp": "CA/2014/54120 (Registered Architect)"
+      },
+      "discrepancies": [],
+      "completenessScore": 92,
+      "isReadable": true,
+      "disclaimer": "Automated AI preliminary verification under TNCDBR-2019 guidelines. Does not constitute legal title certification or government sanction. Final authority rests solely with the competent planning agency (CMDA/DTCP/GCC).",
+      "provider": "PermitFlow Guard (Local Fallback)",
+      "isVerified": true,
+      "createdAt": "2026-09-17T16:26:44.238Z"
+    },
+    {
+      "id": "val-1789662404523-7q7qq",
+      "documentId": "doc-tn-1789662402289",
+      "requirementId": "req-tn-1789662315293-8",
+      "permitId": "pmt-tn-1789662315292",
+      "aiStatus": "Invalid",
+      "badge": "❌ Invalid",
+      "badgeClass": "bg-rose-50 text-rose-700 border-rose-200",
+      "reason": "The uploaded document '36472-1._architectural_final.pdf' is an architectural drawing file, not the required Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report mandated by TNCDBR-2019 Rule 11(6).",
+      "detectedDocumentType": "Architectural Final Drawing",
+      "extractedDetails": {
+        "ownerName": null,
+        "surveyNumber": null,
+        "plotArea": null,
+        "roadWidth": null,
+        "documentNumber": null,
+        "sroName": null,
+        "engineerStamp": null
+      },
+      "discrepancies": [
+        "Uploaded document is an architectural drawing file instead of a Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report.",
+        "Missing mandatory soil classification, borehole logs, and Safe Bearing Capacity values required under TNCDBR-2019 Rule 11(6)."
+      ],
+      "completenessScore": 0,
+      "isReadable": true,
+      "disclaimer": "Automated AI preliminary verification under TNCDBR-2019 guidelines. Does not constitute legal title certification or government sanction. Final authority rests solely with the competent planning agency (CMDA/DTCP/GCC).",
+      "provider": "Gemini 3 Flash (Multimodal AI)",
+      "isVerified": false,
+      "createdAt": "2026-09-17T16:26:44.523Z"
     }
   ],
   "professionalReviews": [
@@ -8095,32 +9426,69 @@
       "createdAt": "2026-09-17T16:15:13.647Z"
     }
   ],
-  "applications": [
-    {
-      "permitId": "pmt-tn-1789661691806",
-      "officialApplicationNumber": "TN-DTCP-2026-CMB-849102",
-      "portalFilingDate": "2026-09-17",
-      "portalType": "DTCP_SINGLE_WINDOW",
-      "currentStage": "SUBMITTED_ON_GOVT_PORTAL",
-      "statusHistory": [
-        {
-          "stage": "SITE_INSPECTION_SCHEDULED",
-          "timestamp": "2026-09-17T16:15:13.694Z",
-          "remarks": "DTCP Assistant Director site inspection scheduled for 25-09-2026."
-        },
-        {
-          "stage": "SUBMITTED_ON_GOVT_PORTAL",
-          "timestamp": "2026-09-17T16:15:13.676Z",
-          "remarks": "Application successfully filed on official DTCP_SINGLE_WINDOW portal with reference number TN-DTCP-2026-CMB-849102."
-        }
-      ],
-      "queries": [],
-      "createdAt": "2026-09-17T16:14:28.803Z",
-      "updatedAt": "2026-09-17T16:15:13.676Z"
-    }
-  ],
+  "applications": [],
   "issues": [],
   "timelineEvents": [
+    {
+      "id": "aud-tn-1789662936203",
+      "permitId": "pmt-tn-1789641055365",
+      "changedById": "usr-1",
+      "action": "PACKAGE_GENERATED",
+      "fromStatus": null,
+      "toStatus": "PACKAGE_GENERATED",
+      "details": "Compiled official submittal dossier [Package ID: PKG-TN-1789662936203] with 11 indexed documents. Ready for CMDA/DTCP portal upload.",
+      "createdAt": "2026-09-17T16:35:36.203Z"
+    },
+    {
+      "id": "aud-tn-1789662927188",
+      "permitId": "pmt-tn-1789641055365",
+      "changedById": "usr-1",
+      "action": "PACKAGE_GENERATED",
+      "fromStatus": null,
+      "toStatus": "PACKAGE_GENERATED",
+      "details": "Compiled official submittal dossier [Package ID: PKG-TN-1789662927184] with 11 indexed documents. Ready for CMDA/DTCP portal upload.",
+      "createdAt": "2026-09-17T16:35:27.188Z"
+    },
+    {
+      "id": "aud-tn-1789662404543",
+      "permitId": "pmt-tn-1789662315292",
+      "changedById": "usr-1",
+      "action": "DOCUMENT_AI_VERIFIED",
+      "fromStatus": null,
+      "toStatus": "AUDIT_IN_PROGRESS",
+      "details": "Uploaded v1 (36472-1._architectural_final.pdf). AI Inspection: [❌ Invalid] The uploaded document '36472-1._architectural_final.pdf' is an architectural drawing file, not the required Geotechnical Soil Investigation & Safe Bearing Capacity (SBC) Report mandated by TNCDBR-2019 Rule 11(6).",
+      "createdAt": "2026-09-17T16:26:44.543Z"
+    },
+    {
+      "id": "aud-tn-1789662404249",
+      "permitId": "pmt-tn-1789662315292",
+      "changedById": "usr-1",
+      "action": "DOCUMENT_AI_VERIFIED",
+      "fromStatus": null,
+      "toStatus": "AUDIT_IN_PROGRESS",
+      "details": "Uploaded v1 (36472-1._architectural_final.pdf). AI Inspection: [✅ Appears Valid] Verified valid Detailed Architectural Drawings & Site Plan (PreDCR / AutoDCR Compliant) conforming to TNCDBR-2019 & Tamil Nadu Town and Country Planning Act, 1971 - Rule 11 & Schedule I (Architectural Design Standards). Key details and statutory endorsements verified.",
+      "createdAt": "2026-09-17T16:26:44.249Z"
+    },
+    {
+      "id": "aud-tn-1789662371746",
+      "permitId": "pmt-tn-1789662315292",
+      "changedById": "usr-1",
+      "action": "DOCUMENT_AI_VERIFIED",
+      "fromStatus": null,
+      "toStatus": "AUDIT_IN_PROGRESS",
+      "details": "Uploaded v1 (36472-1._architectural_final.pdf). AI Inspection: [✅ Appears Valid] The uploaded architectural document matches the required type and contains the necessary details for PreDCR/AutoDCR compliance under TNCDBR-2019.",
+      "createdAt": "2026-09-17T16:26:11.746Z"
+    },
+    {
+      "id": "aud-tn-1789662315293",
+      "permitId": "pmt-tn-1789662315292",
+      "changedById": "usr-1",
+      "action": "PROJECT_AND_CHECKLIST_INITIALIZED",
+      "fromStatus": null,
+      "toStatus": "AUDIT_IN_PROGRESS",
+      "details": "Created project in Coimbatore, Tamil Nadu. Assigned to Directorate of Town and Country Planning (DTCP). Generated 11 regulatory requirements under TNCDBR-2019.",
+      "createdAt": "2026-09-17T16:25:15.293Z"
+    },
     {
       "id": "aud-tn-1789661713694",
       "permitId": "pmt-tn-1789661691806",
