@@ -69,8 +69,10 @@ const TN_GOVT_MILESTONE_STAGES = {
  * Handles Professional Technical Review Sign-Off
  */
 function recordProfessionalReview(permit, reviewerData) {
+  const now = new Date().toISOString();
   const reviewRecord = {
-    reviewedAt: new Date().toISOString(),
+    reviewedAt: now,
+    signedAt: now,
     reviewerName: reviewerData.reviewerName || 'Ar. K. Swaminathan, B.Arch, AIIA',
     registrationNumber: reviewerData.registrationNumber || 'COA: CA/2012/58120 / CMDA Reg: RA/GR-I/19/03/044',
     professionalRole: reviewerData.professionalRole || 'Registered Architect / Licensed Building Surveyor',

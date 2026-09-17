@@ -8,6 +8,15 @@ const { TN_DISTRICTS, TN_AUTHORITIES, evaluateTNCDBRClassification, generateTami
 const { verifyTamilNaduDocument } = require('./src/services/verification.service');
 const { runPreSubmissionAudit } = require('./src/services/audit.service');
 const { GOVT_PORTALS, recordProfessionalReview, generateSubmissionPackage, recordOfficialGovernmentSubmission, updateGovernmentMilestone } = require('./src/services/submission.service');
+const { authService } = require('./src/services/auth.service');
+const {
+  validateProjectInput,
+  validateDocumentUpload,
+  validateProfessionalReview,
+  validateGovernmentSubmission,
+  safeErrorHandler
+} = require('./src/services/validation.service');
+const { STATUTORY_DISCLAIMER } = require('./src/services/ai.service');
 
 const PORT = process.env.PORT || 3000;
 const db = storageService.getDB();
@@ -20,7 +29,7 @@ function sendJSON(res, statusCode, data) {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-User-Id'
   });
   res.end(JSON.stringify(data));
 }
@@ -52,20 +61,42 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(204, {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PATCH, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-User-Id'
     });
     return res.end();
   }
 
   try {
-    // 1. Current User & Role Switch
+    const user = authService.resolveUser(req);
+
+    // 1. Authentication & User Management
+    if (pathname === '/api/v1/auth/register' && method === 'POST') {
+      const body = await parseJSONBody(req);
+      try {
+        const result = authService.registerUser(body);
+        return sendJSON(res, 201, { success: true, ...result });
+      } catch (err) {
+        return sendJSON(res, 400, { success: false, error: err.message });
+      }
+    }
+
+    if (pathname === '/api/v1/auth/login' && method === 'POST') {
+      const body = await parseJSONBody(req);
+      try {
+        const result = authService.loginUser(body);
+        return sendJSON(res, 200, { success: true, ...result });
+      } catch (err) {
+        return sendJSON(res, 401, { success: false, error: err.message });
+      }
+    }
+
     if (pathname === '/api/v1/auth/me' && method === 'GET') {
-      return sendJSON(res, 200, { user: db.currentUser, availableUsers: db.users });
+      return sendJSON(res, 200, { user, availableUsers: db.users });
     }
 
     if (pathname === '/api/v1/auth/switch-role' && method === 'POST') {
       const body = await parseJSONBody(req);
-      const targetUser = db.users.find(u => u.role === body.role);
+      const targetUser = db.users.find(u => u.role === body.role || u.id === body.userId);
       if (targetUser) {
         db.currentUser = targetUser;
         storageService.save();
@@ -90,16 +121,19 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, evaluation);
     }
 
-    // 4. Dashboard KPIs
+    // 4. Dashboard KPIs (Filtered by authenticated user access)
     if (pathname === '/api/v1/dashboard/metrics' && method === 'GET') {
-      const totalProjects = db.projects.length;
-      const totalActivePermits = db.permits.length;
+      const accessibleProjects = db.projects.filter(p => authService.canAccessProject(user, p));
+      const totalProjects = accessibleProjects.length;
+      const projectIds = new Set(accessibleProjects.map(p => p.id));
+      const accessiblePermits = db.permits.filter(p => projectIds.has(p.projectId));
+      const totalActivePermits = accessiblePermits.length;
       
       let actionRequiredCount = 0;
       let underGovtReviewCount = 0;
       let readyForReviewCount = 0;
 
-      const projectSummaries = db.projects.map(proj => {
+      const projectSummaries = accessibleProjects.map(proj => {
         const permits = db.permits.filter(p => p.projectId === proj.id);
         permits.forEach(p => {
           const reqs = db.requirements.filter(r => r.permitId === p.id);
@@ -141,15 +175,17 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, notification: notif });
     }
 
-    // 6. Projects CRUD
+    // 6. Projects CRUD (Enforcing User Access Isolation)
     if (pathname === '/api/v1/projects' && method === 'GET') {
       const search = (parsedUrl.query.search || '').toLowerCase();
       const filtered = db.projects.filter(p =>
-        p.name.toLowerCase().includes(search) ||
-        p.city.toLowerCase().includes(search) ||
-        (p.district && p.district.toLowerCase().includes(search)) ||
-        p.address.toLowerCase().includes(search) ||
-        (p.parcelNumber && p.parcelNumber.toLowerCase().includes(search))
+        authService.canAccessProject(user, p) && (
+          p.name.toLowerCase().includes(search) ||
+          p.city.toLowerCase().includes(search) ||
+          (p.district && p.district.toLowerCase().includes(search)) ||
+          p.address.toLowerCase().includes(search) ||
+          (p.parcelNumber && p.parcelNumber.toLowerCase().includes(search))
+        )
       ).map(p => {
         const permits = db.permits.filter(pm => pm.projectId === p.id).map(pm => {
           const reqs = db.requirements.filter(r => r.permitId === pm.id);
@@ -168,17 +204,30 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, filtered);
     }
 
-    // CREATE PROJECT WITH TAMIL NADU TNCDBR-2019 CONDITIONAL CHECKLIST
+    // Single Project GET (With 403 Forbidden Authorization Guard)
+    if (pathname.match(/^\/api\/v1\/projects\/([^\/]+)$/) && method === 'GET') {
+      const id = pathname.split('/')[4];
+      const project = db.projects.find(p => p.id === id);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to access this project.' });
+      }
+      return sendJSON(res, 200, project);
+    }
+
+    // CREATE PROJECT WITH VALIDATION & USER OWNERSHIP
     if (pathname === '/api/v1/projects' && method === 'POST') {
-      const body = await parseJSONBody(req);
-      if (!body.name || !body.address || !body.district) {
-        return sendJSON(res, 400, { error: 'Missing required fields (name, address, district)' });
+      const rawBody = await parseJSONBody(req);
+      const valRes = validateProjectInput(rawBody);
+      if (!valRes.isValid) {
+        return sendJSON(res, 400, { error: valRes.errors.join('; ') });
       }
 
+      const body = { ...rawBody, ...valRes.sanitized };
       const district = body.district || 'Chennai';
       const city = body.city || district;
       const taluk = body.taluk || (TN_DISTRICTS[district]?.defaultTaluks[0] || 'General Taluk');
-      const projectType = body.initialPermitType || 'Commercial Building Plan Approval';
+      const projectType = body.initialPermitType || body.projectType || 'Commercial Building Plan Approval';
       const plotArea = parseFloat(body.plotArea) || 300.0;
       const builtUpArea = parseFloat(body.builtUpArea) || 600.0;
       const height = parseFloat(body.height) || 12.0;
@@ -199,7 +248,7 @@ const server = http.createServer(async (req, res) => {
 
       const selectedAuthority = tncDbrAnalysis.authority;
 
-      // 2. Instantiate Project
+      // 2. Instantiate Project with User Ownership
       const newProject = {
         id: `proj-tn-${Date.now()}`,
         name: body.name,
@@ -213,7 +262,7 @@ const server = http.createServer(async (req, res) => {
         zipCode: body.zipCode || '600001',
         parcelNumber: body.parcelNumber || 'S.No. PENDING',
         ownerName: body.ownerName || 'Project Applicant',
-        ownerContact: body.ownerContact || '',
+        ownerContact: body.ownerContact || user.email,
         plotArea,
         builtUpArea,
         height,
@@ -224,7 +273,7 @@ const server = http.createServer(async (req, res) => {
         budget: Number(body.budget) || 10000000,
         estimatedStartDate: body.estimatedStartDate || new Date().toISOString().split('T')[0],
         estimatedEndDate: body.estimatedEndDate || '2028-12-31',
-        managerId: db.currentUser.id,
+        managerId: user.id,
         authority: selectedAuthority.id,
         governingCode: selectedAuthority.governingCode,
         createdAt: new Date().toISOString()
@@ -287,10 +336,10 @@ const server = http.createServer(async (req, res) => {
         });
       });
 
-      db.auditLogs.unshift({
+      storageService.addTimelineEvent({
         id: `aud-tn-${Date.now()}`,
         permitId: newPermit.id,
-        changedById: db.currentUser.id,
+        changedById: user.id,
         action: 'PROJECT_AND_CHECKLIST_INITIALIZED',
         fromStatus: null,
         toStatus: 'AUDIT_IN_PROGRESS',
@@ -309,6 +358,11 @@ const server = http.createServer(async (req, res) => {
       if (!permit) return sendJSON(res, 404, { error: 'Permit not found' });
 
       const project = db.projects.find(pr => pr.id === permit.projectId);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to access this permit.' });
+      }
+
       const reqs = db.requirements.filter(r => r.permitId === permit.id).map(r => {
         const docs = db.documents.filter(d => d.requirementId === r.id);
         return {
@@ -320,7 +374,7 @@ const server = http.createServer(async (req, res) => {
 
       const docs = db.documents.filter(d => reqs.some(r => r.id === d.requirementId));
       const audit = runPreSubmissionAudit(permit, project, reqs, docs);
-      const audits = db.auditLogs.filter(a => a.permitId === permit.id).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
+      const audits = (db.timelineEvents || db.auditLogs || []).filter(a => a.permitId === permit.id).sort((a,b) => new Date(b.createdAt) - new Date(a.createdAt));
 
       return sendJSON(res, 200, {
         ...permit,
@@ -331,21 +385,33 @@ const server = http.createServer(async (req, res) => {
       });
     }
 
-    // 8. DOCUMENT UPLOAD & AI VERIFICATION
+    // 8. DOCUMENT UPLOAD & REAL GEMINI AI VERIFICATION
     if (pathname.match(/^\/api\/v1\/permits\/([^\/]+)\/requirements\/([^\/]+)\/documents$/) && method === 'POST') {
       const parts = pathname.split('/');
       const permitId = parts[4];
       const reqId = parts[6];
 
-      const body = await parseJSONBody(req);
-      const fileName = body.fileName || `document_${Date.now()}.pdf`;
-      const fileSize = body.fileSize || 5242880;
+      const rawBody = await parseJSONBody(req);
+      const valRes = validateDocumentUpload(rawBody);
+      if (!valRes.isValid) {
+        return sendJSON(res, 400, { error: valRes.errors.join('; ') });
+      }
+
+      const permit = db.permits.find(p => p.id === permitId);
+      if (!permit) return sendJSON(res, 404, { error: 'Permit not found' });
+
+      const project = db.projects.find(pr => pr.id === permit.projectId);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to upload documents for this project.' });
+      }
 
       const reqItem = db.requirements.find(r => r.id === reqId);
       if (!reqItem) return sendJSON(res, 404, { error: 'Requirement item not found' });
 
-      const permit = db.permits.find(p => p.id === permitId);
-      const project = db.projects.find(pr => pr.id === permit?.projectId);
+      const fileName = valRes.sanitized.fileName;
+      const fileSize = valRes.sanitized.fileSize;
 
       // Archive older active versions
       const existingDocs = db.documents.filter(d => d.requirementId === reqId);
@@ -359,18 +425,27 @@ const server = http.createServer(async (req, res) => {
         fileName: `v${nextVersion}_${fileName}`,
         originalName: fileName,
         fileSizeBytes: fileSize,
-        mimeType: 'application/pdf',
+        mimeType: valRes.sanitized.mimeType,
+        fileText: valRes.sanitized.fileText,
         version: nextVersion,
         isCurrent: true,
         storageKey: `firebase-storage://permits/${permitId}/${reqId}/v${nextVersion}_${fileName}`,
-        uploadedById: db.currentUser.id,
+        uploadedById: user.id,
         createdAt: new Date().toISOString()
       };
 
-      // 2. ACTUAL AI VERIFICATION & EXTRACTION
-      const verification = verifyTamilNaduDocument(reqItem, newDoc, permit, project);
+      // 2. REAL GEMINI MULTIMODAL AI VERIFICATION & OCR
+      const verification = await verifyTamilNaduDocument(reqItem, newDoc, permit, project);
       newDoc.verification = verification;
       db.documents.push(newDoc);
+
+      // Persist validation result in Firestore collection
+      storageService.saveValidationResult({
+        documentId: newDoc.id,
+        requirementId: reqId,
+        permitId,
+        ...verification
+      });
 
       // 3. Update Requirement State
       reqItem.verificationStatus = verification.aiStatus;
@@ -381,17 +456,17 @@ const server = http.createServer(async (req, res) => {
       if (verification.aiStatus === 'Appears Valid') {
         reqItem.status = 'UPLOADED';
       } else if (verification.aiStatus === 'Needs Review') {
-        reqItem.status = 'UPLOADED'; // Uploaded but flagged
+        reqItem.status = 'UPLOADED';
       } else {
-        reqItem.status = 'PENDING'; // Invalid upload stays pending
+        reqItem.status = 'PENDING';
       }
 
-      // 4. Update Audit Log
-      db.auditLogs.unshift({
+      // 4. Update Timeline Event & Audit Log
+      storageService.addTimelineEvent({
         id: `aud-tn-${Date.now()}`,
         permitId,
-        changedById: db.currentUser.id,
-        action: 'DOCUMENT_INSPECTED',
+        changedById: user.id,
+        action: 'DOCUMENT_AI_VERIFIED',
         fromStatus: null,
         toStatus: permit.status,
         details: `Uploaded v${nextVersion} (${fileName}). AI Inspection: [${verification.badge}] ${verification.reason}`,
@@ -416,16 +491,28 @@ const server = http.createServer(async (req, res) => {
     // 9. PROFESSIONAL REVIEW SIGN-OFF (Architect / Structural Engineer)
     if (pathname.match(/^\/api\/v1\/permits\/([^\/]+)\/professional-review$/) && method === 'POST') {
       const id = pathname.split('/')[4];
-      const body = await parseJSONBody(req);
+      const rawBody = await parseJSONBody(req);
+      const valRes = validateProfessionalReview(rawBody);
+      if (!valRes.isValid) {
+        return sendJSON(res, 400, { error: valRes.errors.join('; ') });
+      }
+
       const permit = db.permits.find(p => p.id === id);
       if (!permit) return sendJSON(res, 404, { error: 'Permit not found' });
 
-      const reviewRecord = recordProfessionalReview(permit, body);
+      const project = db.projects.find(pr => pr.id === permit.projectId);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to endorse this project.' });
+      }
 
-      db.auditLogs.unshift({
+      const reviewRecord = recordProfessionalReview(permit, valRes.sanitized);
+      storageService.saveProfessionalReview({ permitId: id, ...reviewRecord });
+
+      storageService.addTimelineEvent({
         id: `aud-tn-${Date.now()}`,
         permitId: id,
-        changedById: db.currentUser.id,
+        changedById: user.id,
         action: 'PROFESSIONAL_REVIEW_CLEARED',
         fromStatus: null,
         toStatus: permit.status,
@@ -444,15 +531,20 @@ const server = http.createServer(async (req, res) => {
       if (!permit) return sendJSON(res, 404, { error: 'Permit not found' });
 
       const project = db.projects.find(pr => pr.id === permit.projectId);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to generate dossier for this project.' });
+      }
+
       const reqs = db.requirements.filter(r => r.permitId === permit.id);
       const docs = db.documents.filter(d => reqs.some(r => r.id === d.requirementId));
 
       const manifest = generateSubmissionPackage(permit, project, reqs, docs);
 
-      db.auditLogs.unshift({
+      storageService.addTimelineEvent({
         id: `aud-tn-${Date.now()}`,
         permitId: id,
-        changedById: db.currentUser.id,
+        changedById: user.id,
         action: 'PACKAGE_GENERATED',
         fromStatus: null,
         toStatus: permit.status,
@@ -464,23 +556,31 @@ const server = http.createServer(async (req, res) => {
       return sendJSON(res, 200, { success: true, manifest });
     }
 
-    // 11. RECORD OFFICIAL GOVERNMENT SUBMISSION (User enters real portal application number)
+    // 11. RECORD OFFICIAL GOVERNMENT SUBMISSION
     if (pathname.match(/^\/api\/v1\/permits\/([^\/]+)\/record-government-submission$/) && method === 'POST') {
       const id = pathname.split('/')[4];
-      const body = await parseJSONBody(req);
+      const rawBody = await parseJSONBody(req);
+      const valRes = validateGovernmentSubmission(rawBody);
+      if (!valRes.isValid) {
+        return sendJSON(res, 400, { error: valRes.errors.join('; ') });
+      }
+
       const permit = db.permits.find(p => p.id === id);
       if (!permit) return sendJSON(res, 404, { error: 'Permit not found' });
 
-      if (!body.officialApplicationNumber) {
-        return sendJSON(res, 400, { error: 'Please enter the official Government Application Reference Number received from CMDA / DTCP portal.' });
+      const project = db.projects.find(pr => pr.id === permit.projectId);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to record filings for this project.' });
       }
 
-      const trackingRecord = recordOfficialGovernmentSubmission(permit, body);
+      const trackingRecord = recordOfficialGovernmentSubmission(permit, valRes.sanitized);
+      storageService.saveApplication({ permitId: id, ...trackingRecord });
 
-      db.auditLogs.unshift({
+      storageService.addTimelineEvent({
         id: `aud-tn-${Date.now()}`,
         permitId: id,
-        changedById: db.currentUser.id,
+        changedById: user.id,
         action: 'FILED_ON_GOVT_PORTAL',
         fromStatus: null,
         toStatus: permit.status,
@@ -498,16 +598,23 @@ const server = http.createServer(async (req, res) => {
       const body = await parseJSONBody(req);
       const permit = db.permits.find(p => p.id === id);
       if (!permit) return sendJSON(res, 404, { error: 'Permit not found' });
+
+      const project = db.projects.find(pr => pr.id === permit.projectId);
+      if (!project) return sendJSON(res, 404, { error: 'Project not found' });
+      if (!authService.canAccessProject(user, project)) {
+        return sendJSON(res, 403, { error: 'Forbidden: You do not have permission to update milestones for this project.' });
+      }
+
       if (!permit.governmentTracking) {
         return sendJSON(res, 400, { error: 'Please first record the official government application reference number before updating scrutiny milestones.' });
       }
 
       const updated = updateGovernmentMilestone(permit, body);
 
-      db.auditLogs.unshift({
+      storageService.addTimelineEvent({
         id: `aud-tn-${Date.now()}`,
         permitId: id,
-        changedById: db.currentUser.id,
+        changedById: user.id,
         action: 'GOVT_STATUS_UPDATED',
         fromStatus: null,
         toStatus: body.stage,
@@ -530,8 +637,7 @@ const server = http.createServer(async (req, res) => {
     sendJSON(res, 404, { error: 'Not Found' });
 
   } catch (err) {
-    console.error('Server error:', err);
-    sendJSON(res, 500, { error: err.message || 'Internal Server Error' });
+    safeErrorHandler(res, err);
   }
 });
 
@@ -1520,14 +1626,23 @@ function renderTamilNaduSPA() {
                       <div class="mt-2.5 p-3 rounded-xl text-xs border \${getAIReasonBoxClass(req.verificationStatus)}">
                         <div class="flex items-start space-x-2">
                           <span class="text-sm mt-0.5">\${getAIStatusIcon(req.verificationStatus)}</span>
-                          <div>
-                            <span class="font-bold">AI Inspection Analysis:</span>
-                            <span>\${req.verificationReason}</span>
-                            \${req.extractedDetails?.surveyNumber ? \`
-                              <div class="mt-1 font-mono text-[10px] text-slate-500">
-                                Extracted: Owner: <strong>\${req.extractedDetails.ownerName || 'N/A'}</strong> | Survey #: <strong>\${req.extractedDetails.surveyNumber}</strong>
+                          <div class="w-full">
+                            <div class="flex items-center justify-between">
+                              <span class="font-bold text-slate-800">Gemini AI Document Analysis:</span>
+                              \${req.extractedDetails?.surveyNumber || req.verificationStatus === 'Appears Valid' ? \`<span class="text-[10px] px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-semibold">Gemini 3 Flash</span>\` : ''}
+                            </div>
+                            <p class="mt-0.5 text-slate-700 leading-relaxed">\${req.verificationReason}</p>
+                            \${req.extractedDetails?.surveyNumber || req.extractedDetails?.ownerName ? \`
+                              <div class="mt-1.5 p-2 bg-white/80 rounded border border-slate-200 font-mono text-[10px] text-slate-600 space-y-0.5">
+                                \${req.extractedDetails.ownerName ? \`<div>Owner: <strong>\${req.extractedDetails.ownerName}</strong></div>\` : ''}
+                                \${req.extractedDetails.surveyNumber ? \`<div>Survey #: <strong>\${req.extractedDetails.surveyNumber}</strong></div>\` : ''}
+                                \${req.extractedDetails.plotArea ? \`<div>Extracted Area: <strong>\${req.extractedDetails.plotArea}</strong></div>\` : ''}
+                                \${req.extractedDetails.engineerStamp ? \`<div>License/Stamp: <strong>\${req.extractedDetails.engineerStamp}</strong></div>\` : ''}
                               </div>
                             \` : ''}
+                            <div class="mt-1.5 text-[9px] text-slate-400 italic">
+                              Disclaimer: Automated AI preliminary verification under TNCDBR-2019. Does not constitute legal title certification or government sanction.
+                            </div>
                           </div>
                         </div>
                       </div>
