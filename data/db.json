@@ -162,6 +162,42 @@
       "role": "PROJECT_MANAGER",
       "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
       "createdAt": "2026-09-17T16:45:31.507Z"
+    },
+    {
+      "id": "usr-1789667568665",
+      "email": "pm.arjun.1789667568540@tn-builders.com",
+      "firstName": "Arjun",
+      "lastName": "Chidambaram",
+      "role": "PROJECT_MANAGER",
+      "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
+      "createdAt": "2026-09-17T17:52:48.666Z"
+    },
+    {
+      "id": "usr-1789667568700",
+      "email": "unauthorized.1789667568692@external.com",
+      "firstName": "Unauthorized",
+      "lastName": "Contractor",
+      "role": "PROJECT_MANAGER",
+      "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
+      "createdAt": "2026-09-17T17:52:48.700Z"
+    },
+    {
+      "id": "usr-1789667601716",
+      "email": "pm.arjun.1789667601655@tn-builders.com",
+      "firstName": "Arjun",
+      "lastName": "Chidambaram",
+      "role": "PROJECT_MANAGER",
+      "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
+      "createdAt": "2026-09-17T17:53:21.717Z"
+    },
+    {
+      "id": "usr-1789667601732",
+      "email": "unauthorized.1789667601728@external.com",
+      "firstName": "Unauthorized",
+      "lastName": "Contractor",
+      "role": "PROJECT_MANAGER",
+      "passwordHash": "a109e36947ad56de1dca1cc49f0ef8ac9ad9a7b1aa0df41fb3c4cb73c1ff01ea",
+      "createdAt": "2026-09-17T17:53:21.732Z"
     }
   ],
   "currentUser": {

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Modular AI Document Intelligence Provider
  * Integrates Google Gemini Multimodal models for real document OCR, classification,
  * field extraction, completeness verification, and cross-checking against TNCDBR-2019 rules.
@@ -7,30 +7,51 @@
 const fs = require('fs');
 const path = require('path');
 
-// Resolve Gemini API key from environment, api key.env, or .env
+// Resolve AI API key from server-side environment (process.env.AI_API_KEY) or fallback local config
 function getApiKey() {
+  // 1. Primary server-side environment variable
+  if (process.env.AI_API_KEY && process.env.AI_API_KEY.trim()) {
+    return process.env.AI_API_KEY.trim();
+  }
+
+  // Fallback for backward compatibility
   if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim()) {
     return process.env.GEMINI_API_KEY.trim();
   }
   
+  // 2. Local development fallback files
   const envPaths = [
-    path.join(__dirname, '..', '..', 'api key.env'),
-    path.join(__dirname, '..', '..', '.env'),
+    path.join(process.cwd(), '.env'),
+    path.join(process.cwd(), '.env.local'),
     path.join(process.cwd(), 'api key.env'),
-    path.join(process.cwd(), '.env')
+    path.join(__dirname, '..', '..', '.env'),
+    path.join(__dirname, '..', '..', '.env.local'),
+    path.join(__dirname, '..', '..', 'api key.env')
   ];
 
   for (const p of envPaths) {
     if (fs.existsSync(p)) {
       try {
         const content = fs.readFileSync(p, 'utf8').trim();
-        // If content has GEMINI_API_KEY=..., parse it, otherwise if it starts with AIzaSy it is the raw key
-        const match = content.match(/GEMINI_API_KEY\s*=\s*(.+)/);
-        if (match) {
-          return match[1].trim().replace(/^['"]|['"]$/g, '');
+        // Check AI_API_KEY=...
+        const aiMatch = content.match(/AI_API_KEY\s*=\s*(.+)/);
+        if (aiMatch) {
+          const key = aiMatch[1].trim().replace(/^['"]|['"]$/g, '');
+          process.env.AI_API_KEY = key;
+          return key;
         }
+        // Check GEMINI_API_KEY=...
+        const geminiMatch = content.match(/GEMINI_API_KEY\s*=\s*(.+)/);
+        if (geminiMatch) {
+          const key = geminiMatch[1].trim().replace(/^['"]|['"]$/g, '');
+          process.env.AI_API_KEY = key;
+          return key;
+        }
+        // Raw key file format
         if (content.startsWith('AIzaSy')) {
-          return content.split('\n')[0].trim();
+          const key = content.split('\n')[0].trim();
+          process.env.AI_API_KEY = key;
+          return key;
         }
       } catch (e) {
         // ignore read errors
@@ -44,13 +65,14 @@ const STATUTORY_DISCLAIMER = "Automated AI preliminary verification under TNCDBR
 
 class GeminiAIProvider {
   constructor(apiKey) {
-    this.apiKey = apiKey || getApiKey();
+    this.apiKey = apiKey || process.env.AI_API_KEY || getApiKey();
     this.primaryModel = process.env.GEMINI_MODEL || 'gemini-flash-latest';
     this.fallbackModel = 'gemini-flash-lite-latest';
   }
 
   isConfigured() {
-    return Boolean(this.apiKey && this.apiKey.length > 10);
+    const key = this.apiKey || process.env.AI_API_KEY || getApiKey();
+    return Boolean(key && key.length > 10);
   }
 
   /**
@@ -79,7 +101,8 @@ class GeminiAIProvider {
   }
 
   async _executeGeminiRequest(modelName, { requirement, document, project, permit }) {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${this.apiKey}`;
+    const activeKey = this.apiKey || process.env.AI_API_KEY || getApiKey();
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${activeKey}`;
     
     const p = project || {};
     const reqKey = requirement.idKey || requirement.documentType || 'DOCUMENT';

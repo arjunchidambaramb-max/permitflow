@@ -8,15 +8,21 @@
 const fs = require('fs');
 const path = require('path');
 
-const DB_PATH = path.join(__dirname, '..', '..', 'data', 'db.json');
-const UPLOADS_DIR = path.join(__dirname, '..', '..', 'uploads');
+const IS_VERCEL = Boolean(process.env.VERCEL);
+const BUNDLED_DB_PATH = path.join(__dirname, '..', '..', 'data', 'db.json');
+const DB_PATH = IS_VERCEL ? path.join('/tmp', 'db.json') : BUNDLED_DB_PATH;
+const UPLOADS_DIR = IS_VERCEL ? path.join('/tmp', 'uploads') : path.join(__dirname, '..', '..', 'uploads');
 
 const DB_DIR = path.dirname(DB_PATH);
-if (!fs.existsSync(DB_DIR)) {
-  fs.mkdirSync(DB_DIR, { recursive: true });
-}
-if (!fs.existsSync(UPLOADS_DIR)) {
-  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+try {
+  if (!fs.existsSync(DB_DIR)) {
+    fs.mkdirSync(DB_DIR, { recursive: true });
+  }
+  if (!fs.existsSync(UPLOADS_DIR)) {
+    fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  }
+} catch (e) {
+  // ignore in read-only environments
 }
 
 function getInitialSeedData() {
@@ -147,10 +153,21 @@ class StorageService {
 
   load() {
     try {
+      if (IS_VERCEL && !fs.existsSync(DB_PATH) && fs.existsSync(BUNDLED_DB_PATH)) {
+        try {
+          fs.copyFileSync(BUNDLED_DB_PATH, DB_PATH);
+        } catch (e) {
+          // ignore copy error
+        }
+      }
+
       if (fs.existsSync(DB_PATH)) {
         const raw = fs.readFileSync(DB_PATH, 'utf8');
         this.data = JSON.parse(raw);
-        // Ensure all collections exist
+        this._ensureCollections();
+      } else if (fs.existsSync(BUNDLED_DB_PATH)) {
+        const raw = fs.readFileSync(BUNDLED_DB_PATH, 'utf8');
+        this.data = JSON.parse(raw);
         this._ensureCollections();
       } else {
         this.data = getInitialSeedData();

@@ -52,7 +52,7 @@ function parseJSONBody(req) {
 // -----------------------------------------------------------------------------
 // HTTP Server & Router
 // -----------------------------------------------------------------------------
-const server = http.createServer(async (req, res) => {
+async function requestHandler(req, res) {
   const parsedUrl = url.parse(req.url, true);
   const pathname = parsedUrl.pathname;
   const method = req.method;
@@ -700,7 +700,9 @@ const server = http.createServer(async (req, res) => {
   } catch (err) {
     safeErrorHandler(res, err);
   }
-});
+}
+
+const server = http.createServer(requestHandler);
 
 // -----------------------------------------------------------------------------
 // Interactive Web UI Generator for Tamil Nadu Permit System
@@ -2171,12 +2173,17 @@ function renderTamilNaduSPA() {
 // -----------------------------------------------------------------------------
 // Start Server
 // -----------------------------------------------------------------------------
-server.listen(PORT, () => {
-  console.log('================================================================');
-  console.log(' PERMITFLOW TN - TAMIL NADU CONSTRUCTION PERMIT SYSTEM ONLINE ');
-  console.log(' URL: http://localhost:' + PORT);
-  console.log(' Jurisdiction: Tamil Nadu (TNCDBR-2019)');
-  console.log(' Planning Authorities: CMDA, DTCP, Greater Chennai Corporation');
-  console.log(' Storage: Persistent DB (data/db.json) + Firebase Compatible');
-  console.log('================================================================');
-});
+if (require.main === module) {
+  server.listen(PORT, () => {
+    console.log('================================================================');
+    console.log(' PERMITFLOW TN - TAMIL NADU CONSTRUCTION PERMIT SYSTEM ONLINE ');
+    console.log(' URL: http://localhost:' + PORT);
+    console.log(' Jurisdiction: Tamil Nadu (TNCDBR-2019)');
+    console.log(' Planning Authorities: CMDA, DTCP, Greater Chennai Corporation');
+    console.log(' Storage: Persistent DB (data/db.json) + Firebase Compatible');
+    console.log('================================================================');
+  });
+}
+
+module.exports = requestHandler;
+module.exports.server = server;
